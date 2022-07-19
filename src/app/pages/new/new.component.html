@@ -1,1 +1,20 @@
 <h3>Schema Builder</h3>
+<nz-table #basicTable [nzData]="modules">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of basicTable.data">
+    <td>{{data.name}}</td>
+    <td>{{data.desc}}</td>
+    <td>
+      <a>Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+<add-new></add-new>
