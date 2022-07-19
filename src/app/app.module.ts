@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconTestModule } from "ng-zorro-antd/icon/testing";
+import { NewService } from "./pages/new/new.service";
 
 registerLocaleData(en);
 
@@ -30,7 +31,10 @@ registerLocaleData(en);
     NzMenuModule,
     NzIconTestModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    NewService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

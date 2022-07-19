@@ -1,9 +1,10 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzTableModule } from "ng-zorro-antd/table";
 import {NzInputModule} from 'ng-zorro-antd/input';
+import { NewService } from "./new.service";
 
 export class ModuleRequest {
   name: string = '';
@@ -20,6 +21,7 @@ export class ModuleRequest {
         margin: 1rem 0;
       }
     </style>
+    <h3>Add New Field</h3>
     <form [formGroup]="form">
       <div class="item">
         <input nz-input nzSize="large" formControlName="name" placeholder="Name">
@@ -42,6 +44,7 @@ export class ModuleRequest {
 })
 export class AddNewComponent {
   form: FormGroup;
+  @Output() onAdd: EventEmitter<ModuleRequest> = new EventEmitter<ModuleRequest>();
 
   constructor(
     private readonly fb: FormBuilder
@@ -53,7 +56,8 @@ export class AddNewComponent {
   }
 
   addNew(){
-
+    this.onAdd.emit(this.form.value);
+    this.form.reset();
   }
 }
 
@@ -68,6 +72,20 @@ export class AddNewComponent {
     AddNewComponent,
   ]
 })
-export class NewComponent {
-  modules: any[] = [];
+export class NewComponent implements OnInit{
+  modules: ModuleRequest[] = [];
+
+  constructor(
+    private readonly schemaService: NewService
+  ) {
+  }
+
+  ngOnInit() {
+    this.schemaService.getModules().subscribe(res => this.modules = [...res as []]);
+  }
+
+  addNew(module: ModuleRequest){
+    this.modules = [...this.modules, module];
+    this.schemaService.create(module).subscribe();
+  }
 }
