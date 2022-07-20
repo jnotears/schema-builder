@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ModuleRequest } from "./new.component";
+import { ModuleRequest, ModuleSchemaRequest } from "./new.component";
 
 @Injectable()
 export class NewService{
@@ -18,5 +18,15 @@ export class NewService{
   create(module: ModuleRequest){
     const opts = new HttpHeaders().set('apikey', this.apikey);
     return this.http.post(`https://fkqjnoaomqvozccywmsq.supabase.co/rest/v1/module`, module, {headers: opts});
+  }
+
+  getModuleSchema(id: number){
+    const opts = new HttpHeaders().set('apikey', this.apikey);
+    return this.http.get(`https://fkqjnoaomqvozccywmsq.supabase.co/rest/v1/schema?id=eq.${id}&select=*`, {headers: opts});
+  }
+
+  createSchema(moduleSchema: ModuleSchemaRequest){
+    const opts = new HttpHeaders().set('apikey', this.apikey);
+    return this.http.post(`https://fkqjnoaomqvozccywmsq.supabase.co/rest/v1/module`, moduleSchema, {headers: opts});
   }
 }
