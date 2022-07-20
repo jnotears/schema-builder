@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzTableModule } from "ng-zorro-antd/table";
-import {NzInputModule} from 'ng-zorro-antd/input';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NewService } from "./new.service";
 import { NzSelectModule } from "ng-zorro-antd/select";
 
@@ -12,20 +12,20 @@ export class ModuleRequest {
   desc: string = '';
 }
 
-export interface ModuleSchemaRequest{
+export interface ModuleSchemaRequest {
   module_id?: number;
   field_name: string;
   data_type: string;
   validation: string | null;
 }
 
-interface Module{
+interface Module {
   id: number;
   name: string;
   desc: string;
 }
 
-interface ModuleSchema{
+interface ModuleSchema {
   id: number;
   field_name: string;
   module_id: number;
@@ -53,7 +53,9 @@ interface ModuleSchema{
       </div>
     </form>
     <div class="item">
-      <button style="width: 100%" nz-button nzType="primary" nzSize="large" (click)="addNew()" [disabled]="form.invalid">Add</button>
+      <button style="width: 100%" nz-button nzType="primary" nzSize="large" (click)="addNew()"
+              [disabled]="form.invalid">Add
+      </button>
     </div>
   `,
   imports: [
@@ -77,7 +79,7 @@ export class AddNewComponent {
     })
   }
 
-  addNew(){
+  addNew() {
     this.onAdd.emit(this.form.value);
     this.form.reset();
   }
@@ -102,10 +104,20 @@ export class AddNewComponent {
         <nz-select [nzPlaceHolder]="'Choose data type'" formControlName="data_type" nzSize="large" style="width: 100%">
           <nz-option *ngFor="let type of dataTypes" [nzValue]="type" [nzLabel]="type"></nz-option>
         </nz-select>
+        <ng-container *ngIf="selectedType">
+          <div class="item">
+            <nz-select [nzPlaceHolder]="'Choose validators'" formControlName="validation" nzSize="large" style="width: 100%" nzMode="multiple">
+              <nz-option *ngFor="let validator of validators[selectedType]" [nzValue]="validator.value"
+                         [nzLabel]="validator.label"></nz-option>
+            </nz-select>
+          </div>
+        </ng-container>
       </div>
     </form>
     <div class="item">
-      <button style="width: 100%" nz-button nzType="primary" nzSize="large" (click)="addNew()" [disabled]="form.invalid">Add</button>
+      <button style="width: 100%" nz-button nzType="primary" nzSize="large" (click)="addNew()"
+              [disabled]="form.invalid">Add
+      </button>
     </div>
   `,
   imports: [
@@ -117,9 +129,27 @@ export class AddNewComponent {
     NzSelectModule
   ]
 })
-export class NewModuleSchema{
+export class NewModuleSchema {
   dataTypes = ['string', 'number', 'boolean'];
+  validators = {
+    string: [
+      {label: 'Nullable', value: 'nullable'},
+      {label: 'Less than 50', value: 'less_than_50'},
+      {label: 'Less than 100', value: 'less_than_100'},
+      {label: 'Less than 1000', value: "less_than_1000"}
+    ],
+    number: [
+      {label: 'Positive', value: 'positive'},
+      {label: 'Negative', value: 'negative'},
+      {label: 'Less than 100', value: 'less_than_100'},
+      {label: 'Less than 1000', value: 'less_than_1000'},
+      {label: 'Less than 50', value: 'less_than_50'},
+      {label: 'Nullable', value: 'nullable'}
+    ],
+    boolean: [{label: 'Nullable', value: 'nullable'}]
+  }
   form: FormGroup;
+  selectedType: 'string' | 'number' | 'boolean';
   @Output() onAdd: EventEmitter<ModuleSchemaRequest> = new EventEmitter<ModuleSchemaRequest>();
 
   constructor(
@@ -127,12 +157,18 @@ export class NewModuleSchema{
   ) {
     this.form = fb.group({
       field_name: ['', Validators.required],
-      data_type: ['', Validators.required]
-    })
+      data_type: ['', Validators.required],
+      validation: []
+    });
+    this.form.valueChanges.subscribe(change => {
+      this.selectedType = change.data_type;
+    });
   }
 
-  addNew(){
-    this.onAdd.emit(this.form.value);
+  addNew() {
+    const schema = {...this.form.value, validation: this.form.value.validation?.join(',')}
+    console.log('schema', schema)
+    this.onAdd.emit(schema);
     this.form.reset();
   }
 }
@@ -149,7 +185,7 @@ export class NewModuleSchema{
     NewModuleSchema
   ]
 })
-export class NewComponent implements OnInit{
+export class NewComponent implements OnInit {
   modules: Module[] = [];
   moduleSchemas: ModuleSchema[] = [];
   selectedModule: Module;
@@ -163,25 +199,24 @@ export class NewComponent implements OnInit{
     this.getModules();
   }
 
-  getModules(){
+  getModules() {
     this.schemaService.getModules().subscribe(res => this.modules = [...res as []]);
   }
 
-  addNew(module: ModuleRequest){
-    // this.modules = [...this.modules, module];
+  addNew(module: ModuleRequest) {
     this.schemaService.create(module).subscribe(() => this.getModules());
   }
 
-  onSelectModule(module: Module){
+  onSelectModule(module: Module) {
     this.selectedModule = {...module};
     this.getModuleSchemas(module.id);
   }
 
-  getModuleSchemas(id: number){
+  getModuleSchemas(id: number) {
     this.schemaService.getModuleSchema(id).subscribe(res => this.moduleSchemas = [...res as ModuleSchema[]]);
   }
 
-  newSchema(moduleSchema: any){
+  newSchema(moduleSchema: any) {
     const request: ModuleSchemaRequest = {...moduleSchema};
     request.module_id = this.selectedModule.id;
     this.schemaService.createSchema(request).subscribe(() => this.getModuleSchemas(this.selectedModule.id));
