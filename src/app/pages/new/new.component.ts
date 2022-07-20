@@ -167,7 +167,6 @@ export class NewModuleSchema {
 
   addNew() {
     const schema = {...this.form.value, validation: this.form.value.validation?.join(',')}
-    console.log('schema', schema)
     this.onAdd.emit(schema);
     this.form.reset();
   }
@@ -220,6 +219,10 @@ export class NewComponent implements OnInit {
     const request: ModuleSchemaRequest = {...moduleSchema};
     request.module_id = this.selectedModule.id;
     this.schemaService.createSchema(request).subscribe(() => this.getModuleSchemas(this.selectedModule.id));
+  }
+
+  delete(id: number){
+    this.schemaService.deleteSchemaField(id).subscribe(() => this.getModuleSchemas(this.selectedModule.id));
   }
 }
 

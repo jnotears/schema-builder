@@ -22,12 +22,14 @@
       <tr>
         <th>Field Name</th>
         <th>Data Type</th>
+        <th>Action</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let data of schema.data">
         <td>{{data.field_name}}</td>
         <td>{{data.data_type}}</td>
+        <td><a (click)="delete(data.id)">Delete</a></td>
       </tr>
       </tbody>
     </nz-table>
