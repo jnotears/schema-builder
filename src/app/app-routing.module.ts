@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/module-schema' },
-  { path: 'module-schema', loadComponent: () => import('./pages/new/new.component').then(c => c.NewComponent) }
+  { path: 'module-schema', loadComponent: () => import('./pages/module-schema/module-schema.component').then(c => c.ModuleSchemaComponent) }
 ];
 
 @NgModule({

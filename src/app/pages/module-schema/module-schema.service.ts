@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ModuleRequest, ModuleSchemaRequest } from "./new.component";
+import { ModuleRequest, ModuleSchemaRequest } from "./models";
 
 @Injectable()
-export class NewService{
+export class ModuleSchemaService {
   apikey = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrcWpub2FvbXF2b3pjY3l3bXNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTgwNzU1OTAsImV4cCI6MTk3MzY1MTU5MH0.chuk9tNSSNNAIlMv5DN2Dk3n8QZZuEkisQLMT6s5GIA`;
   constructor(
     private readonly http: HttpClient

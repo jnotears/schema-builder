@@ -14,7 +14,7 @@
     </tr>
     </tbody>
   </nz-table>
-  <new-module (onAdd)="addNew($event)"></new-module>
+  <app-modules (onAdd)="addNew($event)"></app-modules>
   <ng-container *ngIf="selectedModule">
     <h3 style="font-weight: 600; color: #1890ff">Module Schema Builder [{{selectedModule?.name}}]</h3>
     <nz-table #schema [nzData]="moduleSchemas">
@@ -33,6 +33,6 @@
       </tr>
       </tbody>
     </nz-table>
-    <new-module-schema (onAdd)="newSchema($event)"></new-module-schema>
+    <app-schema (onAdd)="newSchema($event)"></app-schema>
   </ng-container>
 </div>

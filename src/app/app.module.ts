@@ -13,7 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconTestModule } from "ng-zorro-antd/icon/testing";
-import { NewService } from "./pages/new/new.service";
+import { ModuleSchemaService } from "./pages/module-schema/module-schema.service";
+import { FormioModule } from "angular-formio";
 
 registerLocaleData(en);
 
@@ -29,11 +30,12 @@ registerLocaleData(en);
     AppRoutingModule,
     NzLayoutModule,
     NzMenuModule,
-    NzIconTestModule
+    NzIconTestModule,
+    FormioModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
-    NewService
+    ModuleSchemaService
   ],
   bootstrap: [AppComponent]
 })
