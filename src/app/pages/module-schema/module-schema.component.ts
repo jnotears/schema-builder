@@ -51,9 +51,13 @@ export class ModuleSchemaComponent implements OnInit {
     this.schemaService.getModuleSchema(id).subscribe(res => this.moduleSchemas = [...res as ModuleSchema[]]);
   }
 
-  newSchema(moduleSchema: any) {
-    const request: ModuleSchemaRequest = {...moduleSchema};
-    request.module_id = this.selectedModule.id;
+  newSchema(schema: any) {
+    const request: ModuleSchemaRequest[] = [...schema.map(s => {
+      return {
+        field_name: s.id,
+        module_id: this.selectedModule.id
+      }
+    })];
     this.schemaService.createSchema(request).subscribe(() => this.getModuleSchemas(this.selectedModule.id));
   }
 

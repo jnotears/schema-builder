@@ -23,6 +23,11 @@ import { ModuleSchemaRequest } from "../models";
       <div class="well jsonviewer">
         <pre id="json"><code class="language-json" #json></code></pre>
       </div>
+      <div class="item">
+        <button style="width: 100%" nz-button nzType="primary" nzSize="large" (click)="addNew()"
+                [disabled]="disabled">Add
+        </button>
+      </div>
     </ng-container>
   `,
   imports: [
@@ -36,17 +41,35 @@ import { ModuleSchemaRequest } from "../models";
   ]
 })
 export class SchemaComponent {
-  @Output() onAdd: EventEmitter<ModuleSchemaRequest> = new EventEmitter<ModuleSchemaRequest>();
+  @Output() onAdd: EventEmitter<any> = new EventEmitter<ModuleSchemaRequest>();
   @ViewChild('json') jsonElement?: ElementRef<any>;
   addMore: boolean = false;
+  schemaObj: any = [];
+  disabled: boolean = true;
   public form: FormioForm = {
     components: []
   };
 
-  onChange(event?: {}) {
+  onChange(event?: any) {
     if(event){
       this.jsonElement.nativeElement.innerHTML = '';
       this.jsonElement.nativeElement.appendChild(document.createTextNode(JSON.stringify(event['form'], null, 4)));
+      this.disabled = !event?.parent?.components?.length;
+      if(event?.type === "addComponent"){
+        if(this.schemaObj.length){
+          this.schemaObj?.splice(event?.index, 0, event?.component);
+        }else {
+          this.schemaObj = [...this.schemaObj, event?.component];
+        }
+        // this.schemaObj?.splice(event?.index, 0, event?.conponent);
+      }else if(event?.type === "deleteComponent"){
+        this.schemaObj?.splice(event?.index, 1);
+      }
+      console.log('schema', this.schemaObj, '===', event);
     }
+  }
+
+  addNew(){
+    this.onAdd.emit([...this.schemaObj])
   }
 }

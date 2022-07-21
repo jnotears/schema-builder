@@ -7,7 +7,7 @@ export interface ModuleSchemaRequest {
   module_id?: number;
   field_name: string;
   data_type: string;
-  validation: string | null;
+  form_config: string | null;
 }
 
 export interface Module {

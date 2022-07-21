@@ -25,9 +25,9 @@ export class ModuleSchemaService {
     return this.http.get(`https://fkqjnoaomqvozccywmsq.supabase.co/rest/v1/schema?module_id=eq.${id}&select=*`, {headers: opts});
   }
 
-  createSchema(moduleSchema: ModuleSchemaRequest){
+  createSchema(schema: ModuleSchemaRequest[]){
     const opts = new HttpHeaders().set('apikey', this.apikey);
-    return this.http.post(`https://fkqjnoaomqvozccywmsq.supabase.co/rest/v1/schema`, moduleSchema, {headers: opts});
+    return this.http.post(`https://fkqjnoaomqvozccywmsq.supabase.co/rest/v1/schema`, schema, {headers: opts});
   }
 
   deleteSchemaField(id: number){
