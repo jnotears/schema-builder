@@ -62,8 +62,11 @@ export class ModuleSchemaComponent implements OnInit {
     })];
     const module = {
       ...this.selectedModule,
-      form_config: JSON.stringify(configs)
-    }
+      form_config: JSON.stringify({
+        title: this.selectedModule.name,
+        components: configs
+      })
+    };
     combineLatest([
       this.schemaService.create(module),
       this.schemaService.createSchema(form)

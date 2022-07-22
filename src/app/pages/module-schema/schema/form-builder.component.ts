@@ -54,15 +54,7 @@ export class FormBuilderComponent {
       this.jsonElement.nativeElement.innerHTML = '';
       this.jsonElement.nativeElement.appendChild(document.createTextNode(JSON.stringify(event['form'], null, 4)));
       this.disabled = !event?.parent?.components?.length;
-      if(event?.type === "addComponent"){
-        if(this.schemaObj.length){
-          this.schemaObj?.splice(event?.index, 0, event?.component);
-        }else {
-          this.schemaObj = [...this.schemaObj, event?.component];
-        }
-      }else if(event?.type === "deleteComponent"){
-        this.schemaObj?.splice(event?.index, 1);
-      }
+      this.schemaObj = [...event?.form?.components];
       console.log('schema', this.schemaObj, '===', event);
     }
   }
