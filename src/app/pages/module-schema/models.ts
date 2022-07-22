@@ -1,25 +1,27 @@
 export class ModuleRequest {
   name: string = '';
   desc: string = '';
+  id?: number;
+  form_config?: string;
 }
 
-export interface ModuleSchemaRequest {
-  module_id?: number;
+export interface FormFieldRequest {
+  id?: number;
+  module_id: number;
   field_name: string;
   data_type: string;
-  form_config: string | null;
 }
 
 export interface Module {
   id: number;
   name: string;
   desc: string;
+  form_config: string;
 }
 
-export interface ModuleSchema {
+export interface FormField {
   id: number;
   field_name: string;
   module_id: number;
   data_type: string;
-  validation: any;
 }

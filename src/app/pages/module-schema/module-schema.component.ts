@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { NzTableModule } from "ng-zorro-antd/table";
-import { ModuleRequest, ModuleSchemaRequest, Module, ModuleSchema } from "./models";
+import { ModuleRequest, Module, FormField, FormFieldRequest } from "./models";
 import { ModuleSchemaService } from "./module-schema.service";
 import { ModulesComponent } from "./modules/modules.component";
-import { SchemaComponent } from "./schema/schema.component";
+import { FormBuilderComponent } from "./schema/form-builder.component";
+import { combineLatest } from "rxjs";
 
 
 
@@ -17,12 +18,12 @@ import { SchemaComponent } from "./schema/schema.component";
     CommonModule,
     NzTableModule,
     ModulesComponent,
-    SchemaComponent
+    FormBuilderComponent
   ]
 })
 export class ModuleSchemaComponent implements OnInit {
   modules: Module[] = [];
-  moduleSchemas: ModuleSchema[] = [];
+  moduleSchemas: FormField[] = [];
   selectedModule: Module;
 
   constructor(
@@ -48,17 +49,25 @@ export class ModuleSchemaComponent implements OnInit {
   }
 
   getModuleSchemas(id: number) {
-    this.schemaService.getModuleSchema(id).subscribe(res => this.moduleSchemas = [...res as ModuleSchema[]]);
+    this.schemaService.getModuleSchema(id).subscribe(res => this.moduleSchemas = [...res as FormField[]]);
   }
 
-  newSchema(schema: any) {
-    const request: ModuleSchemaRequest[] = [...schema.map(s => {
+  newSchema(configs: any) {
+    const form: FormFieldRequest[] = [...configs.map(s => {
       return {
-        field_name: s.id,
-        module_id: this.selectedModule.id
+        field_name: s.label,
+        module_id: this.selectedModule.id,
+        data_type: s.type,
       }
     })];
-    this.schemaService.createSchema(request).subscribe(() => this.getModuleSchemas(this.selectedModule.id));
+    const module = {
+      ...this.selectedModule,
+      form_config: JSON.stringify(configs)
+    }
+    combineLatest([
+      this.schemaService.create(module),
+      this.schemaService.createSchema(form)
+    ]).subscribe(() => this.getModuleSchemas(this.selectedModule.id));
   }
 
   delete(id: number){

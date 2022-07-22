@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ModuleRequest, ModuleSchemaRequest } from "./models";
+import { ModuleRequest, FormFieldRequest } from "./models";
 
 @Injectable()
 export class ModuleSchemaService {
@@ -25,7 +25,7 @@ export class ModuleSchemaService {
     return this.http.get(`https://fkqjnoaomqvozccywmsq.supabase.co/rest/v1/schema?module_id=eq.${id}&select=*`, {headers: opts});
   }
 
-  createSchema(schema: ModuleSchemaRequest[]){
+  createSchema(schema: FormFieldRequest[]){
     const opts = new HttpHeaders().set('apikey', this.apikey);
     return this.http.post(`https://fkqjnoaomqvozccywmsq.supabase.co/rest/v1/schema`, schema, {headers: opts});
   }

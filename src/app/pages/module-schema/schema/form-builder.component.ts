@@ -5,11 +5,10 @@ import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzInputModule } from "ng-zorro-antd/input";
 import { NzSelectModule } from "ng-zorro-antd/select";
 import { FormioForm, FormioModule } from "angular-formio";
-import { ModuleSchemaRequest } from "../models";
 
 @Component({
   standalone: true,
-  selector: 'app-schema',
+  selector: 'app-form-builder',
   template: `
     <style>
       .item {
@@ -40,8 +39,8 @@ import { ModuleSchemaRequest } from "../models";
     FormioModule
   ]
 })
-export class SchemaComponent {
-  @Output() onAdd: EventEmitter<any> = new EventEmitter<ModuleSchemaRequest>();
+export class FormBuilderComponent {
+  @Output() onAdd: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('json') jsonElement?: ElementRef<any>;
   addMore: boolean = false;
   schemaObj: any = [];
@@ -61,7 +60,6 @@ export class SchemaComponent {
         }else {
           this.schemaObj = [...this.schemaObj, event?.component];
         }
-        // this.schemaObj?.splice(event?.index, 0, event?.conponent);
       }else if(event?.type === "deleteComponent"){
         this.schemaObj?.splice(event?.index, 1);
       }
