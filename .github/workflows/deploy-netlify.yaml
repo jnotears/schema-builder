@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: list
-        run: pwd
+        run: pwd && ls
       - name: deploy
         uses: nwtgck/actions-netlify@v1.1
         with:
