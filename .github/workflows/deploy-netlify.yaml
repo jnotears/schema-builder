@@ -3,33 +3,15 @@ on:
   push:
     branches: [master]
 jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#      - name: install angular-cli
-#        run: npm install @angular/cli@latest --force
-#      - name: list dir
-#        run: pwd
-#      - name: build
-#        run: npm run build
-#      - name: list dir
-#        run: cd dist && ls
   deploy:
-#    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: install angular-cli
         run: npm install @angular/cli@latest --force
-      - name: list dir
-        run: pwd
       - name: build
         run: npm run build
-      - name: list dir
-        run: cd dist && ls
       - name: deploy
         uses: nwtgck/actions-netlify@v1.1
         with:
