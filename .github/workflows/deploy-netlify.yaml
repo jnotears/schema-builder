@@ -9,7 +9,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: install angular-cli
-        run: npm @angular/cli/latest
+        run: npm @angular/cli@latest
       - run: npm run build --configuration production
   deploy:
     runs-on: ubuntu-latest
