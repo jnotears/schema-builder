@@ -34,4 +34,5 @@ export class ModuleSchemaService {
     const opts = new HttpHeaders().set('apikey', this.apikey);
     return this.http.delete(`https://fkqjnoaomqvozccywmsq.supabase.co/rest/v1/schema?id=eq.${id}`, {headers: opts});
   }
+
 }
