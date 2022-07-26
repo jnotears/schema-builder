@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: npm build --configuration production
+      - run: npm run build --configuration production
   deploy:
     runs-on: ubuntu-latest
     steps:
