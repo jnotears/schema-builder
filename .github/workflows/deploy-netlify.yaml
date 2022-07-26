@@ -30,6 +30,7 @@ jobs:
         run: npm run build
       - name: list dir
         run: cd dist && ls
+      - name: deploy
         uses: nwtgck/actions-netlify@v1.1
         with:
             publish-dir: './dist/schema-builder'
