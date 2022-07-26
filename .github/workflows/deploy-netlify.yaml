@@ -15,7 +15,7 @@ jobs:
       - name: build
         run: npm run build
       - name: list dir
-        run: ls
+        run: cd dist && ls
   deploy:
     needs: build
     runs-on: ubuntu-latest
