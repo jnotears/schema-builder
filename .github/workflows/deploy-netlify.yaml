@@ -6,12 +6,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo Test
+      - run: ng build --configuration production
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: deploy
-        uses: jnotears/schema-builder
         with:
             publish-dir: './dist'
             production-branch: master
