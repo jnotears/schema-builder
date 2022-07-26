@@ -25,7 +25,7 @@ jobs:
       - name: list
         run: pwd && ls
       - name: list ls
-        run:
+        run: ls
       - name: deploy
         uses: nwtgck/actions-netlify@v1.1
         with:
