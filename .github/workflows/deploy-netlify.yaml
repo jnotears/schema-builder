@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: deploy
-        uses: jnotears/actions-netlify@v1.1
+        uses: jnotears/schema-builder
         with:
             publish-dir: './dist'
             production-branch: master
