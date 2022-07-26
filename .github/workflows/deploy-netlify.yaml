@@ -1,0 +1,24 @@
+name: deploy netlify
+on:
+  push:
+    branches: [master]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Test
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        uses: jnotears/actions-netlify@v1.1
+        with:
+            publish-dir: './dist'
+            production-branch: master
+            deploy-message: "Deploy from GitHub Actions"
+            enable-pull-request-comment: true
+            enable-commit-comment: true
+            overwrites-pull-request-comment: true
+            NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+            NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+            NETLIFY_DEPLOY_TO_PROD: true
