@@ -20,6 +20,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: list
+        run: pwd
       - name: deploy
         uses: nwtgck/actions-netlify@v1.1
         with:
