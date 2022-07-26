@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: deploy
-        uses: jnotears/schema-builder@v0.0.1
+        uses: actions/checkout@v2
         with:
             publish-dir: './dist'
             production-branch: master
