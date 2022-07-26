@@ -20,17 +20,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: list
-        run: pwd && ls
       - name: list ls
         run: ls
       - name: deploy
         uses: nwtgck/actions-netlify@v1.1
         with:
             publish-dir: './dist/schema-builder'
-            production-branch: master
             deploy-message: "Deploy from GitHub Actions"
             enable-pull-request-comment: true
             enable-commit-comment: true
